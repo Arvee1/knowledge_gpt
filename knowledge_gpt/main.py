@@ -1,5 +1,6 @@
 import streamlit as st
 import replicate
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 from knowledge_gpt.components.sidebar import sidebar
 
