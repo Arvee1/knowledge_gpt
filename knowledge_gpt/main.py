@@ -1,6 +1,4 @@
 import streamlit as st
-import replicate
-from langchain_community.embeddings import HuggingFaceEmbeddings
 
 from knowledge_gpt.components.sidebar import sidebar
 
@@ -21,11 +19,11 @@ from knowledge_gpt.core.qa import query_folder
 from knowledge_gpt.core.utils import get_llm
 
 
-# EMBEDDING = "openai"
-EMBEDDING = "sentence-transformers/all-MiniLM-L6-v2"
-# VECTOR_STORE = "faiss"
-embeddings_model_name = "sentence-transformers/all-MiniLM-L6-v2"
-VECTOR_STORE = Chroma(embedding_function=HuggingFaceEmbeddings(model_name=embeddings_model_name), persist_directory="./chroma_db_oai")
+EMBEDDING = "openai"
+# EMBEDDING = "sentence-transformers/all-MiniLM-L6-v2"
+VECTOR_STORE = "faiss"
+# embeddings_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+# VECTOR_STORE = Chroma(embedding_function=HuggingFaceEmbeddings(model_name=embeddings_model_name), persist_directory="./chroma_db_oai")
 MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
 
 # Uncomment to enable debug mode
@@ -39,14 +37,14 @@ bootstrap_caching()
 
 sidebar()
 
-# openai_api_key = st.session_state.get("OPENAI_API_KEY")
+openai_api_key = st.session_state.get("OPENAI_API_KEY")
 
 
-# if not openai_api_key:
-    # st.warning(
-        # "Enter your OpenAI API key in the sidebar. You can get a key at"
-        # " https://platform.openai.com/account/api-keys."
-    # )
+if not openai_api_key:
+    st.warning(
+        "Enter your OpenAI API key in the sidebar. You can get a key at"
+        " https://platform.openai.com/account/api-keys."
+    )
 
 
 uploaded_file = st.file_uploader(
@@ -55,7 +53,7 @@ uploaded_file = st.file_uploader(
     help="Scanned documents are not supported yet!",
 )
 
-# model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
+model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
 
 with st.expander("Advanced Options"):
     return_all_chunks = st.checkbox("Show all chunks retrieved from vector search")
@@ -83,11 +81,11 @@ if not is_file_valid(file):
 with st.spinner("Indexing document... This may take a while⏳"):
     folder_index = embed_files(
         files=[chunked_file],
-        embedding=EMBEDDING,
-        # embedding=EMBEDDING if model != "debug" else "debug",
-        # vector_store=VECTOR_STORE if model != "debug" else "debug",
-        vector_store=VECTOR_STORE,
-        # openai_api_key=openai_api_key,
+        # embedding=EMBEDDING,
+        embedding=EMBEDDING if model != "debug" else "debug",
+        vector_store=VECTOR_STORE if model != "debug" else "debug",
+        # vector_store=VECTOR_STORE,
+        openai_api_key=openai_api_key,
     )
 
 with st.form(key="qa_form"):
