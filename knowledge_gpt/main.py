@@ -74,8 +74,8 @@ if not is_file_valid(file):
     st.stop()
 
 
-# if not is_open_ai_key_valid(openai_api_key, model):
-    # st.stop()
+if not is_open_ai_key_valid(openai_api_key, model):
+    st.stop()
 
 
 with st.spinner("Indexing document... This may take a while⏳"):
@@ -106,11 +106,11 @@ if submit:
     # Output Columns
     answer_col, sources_col = st.columns(2)
 
-    # llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0)
-    llm = Replicate(
-        model="meta/meta-llama-3-8b-instruct",
-        model_kwargs={"temperature": 0.75, "max_length": 500, "top_p": 1},
-    )
+    llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0)
+    # llm = Replicate(
+        # model="meta/meta-llama-3-8b-instruct",
+        # model_kwargs={"temperature": 0.75, "max_length": 500, "top_p": 1},
+    # )
     result = query_folder(
         folder_index=folder_index,
         query=query,
