@@ -23,7 +23,9 @@ from knowledge_gpt.core.utils import get_llm
 
 # EMBEDDING = "openai"
 EMBEDDING = "sentence-transformers/all-MiniLM-L6-v2"
-VECTOR_STORE = "faiss"
+# VECTOR_STORE = "faiss"
+embeddings_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+VECTOR_STORE = Chroma(embedding_function=HuggingFaceEmbeddings(model_name=embeddings_model_name), persist_directory="./chroma_db_oai")
 MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
 
 # Uncomment to enable debug mode
