@@ -35,14 +35,14 @@ bootstrap_caching()
 
 sidebar()
 
-openai_api_key = st.session_state.get("OPENAI_API_KEY")
+# openai_api_key = st.session_state.get("OPENAI_API_KEY")
 
 
-if not openai_api_key:
-    st.warning(
-        "Enter your OpenAI API key in the sidebar. You can get a key at"
-        " https://platform.openai.com/account/api-keys."
-    )
+# if not openai_api_key:
+    # st.warning(
+        # "Enter your OpenAI API key in the sidebar. You can get a key at"
+        # " https://platform.openai.com/account/api-keys."
+    # )
 
 
 uploaded_file = st.file_uploader(
@@ -51,7 +51,7 @@ uploaded_file = st.file_uploader(
     help="Scanned documents are not supported yet!",
 )
 
-model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
+# model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
 
 with st.expander("Advanced Options"):
     return_all_chunks = st.checkbox("Show all chunks retrieved from vector search")
@@ -72,8 +72,8 @@ if not is_file_valid(file):
     st.stop()
 
 
-if not is_open_ai_key_valid(openai_api_key, model):
-    st.stop()
+# if not is_open_ai_key_valid(openai_api_key, model):
+    # st.stop()
 
 
 with st.spinner("Indexing document... This may take a while⏳"):
@@ -102,7 +102,11 @@ if submit:
     # Output Columns
     answer_col, sources_col = st.columns(2)
 
-    llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0)
+    # llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0)
+    llm = Replicate(
+        model="meta/meta-llama-3-8b-instruct",
+        model_kwargs={"temperature": 0.75, "max_length": 500, "top_p": 1},
+    )
     result = query_folder(
         folder_index=folder_index,
         query=query,
