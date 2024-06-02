@@ -1,4 +1,5 @@
 import streamlit as st
+import replicate
 
 from knowledge_gpt.components.sidebar import sidebar
 
