@@ -80,8 +80,10 @@ if not is_file_valid(file):
 with st.spinner("Indexing document... This may take a while⏳"):
     folder_index = embed_files(
         files=[chunked_file],
-        embedding=EMBEDDING if model != "debug" else "debug",
-        vector_store=VECTOR_STORE if model != "debug" else "debug",
+        embedding=EMBEDDING,
+        # embedding=EMBEDDING if model != "debug" else "debug",
+        # vector_store=VECTOR_STORE if model != "debug" else "debug",
+        vector_store=VECTOR_STORE,
         # openai_api_key=openai_api_key,
     )
 
