@@ -20,7 +20,8 @@ from knowledge_gpt.core.qa import query_folder
 from knowledge_gpt.core.utils import get_llm
 
 
-EMBEDDING = "openai"
+# EMBEDDING = "openai"
+EMBEDDING = "sentence-transformers/all-MiniLM-L6-v2"
 VECTOR_STORE = "faiss"
 MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
 
@@ -81,7 +82,7 @@ with st.spinner("Indexing document... This may take a while⏳"):
         files=[chunked_file],
         embedding=EMBEDDING if model != "debug" else "debug",
         vector_store=VECTOR_STORE if model != "debug" else "debug",
-        openai_api_key=openai_api_key,
+        # openai_api_key=openai_api_key,
     )
 
 with st.form(key="qa_form"):
